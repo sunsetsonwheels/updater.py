@@ -1,7 +1,6 @@
 # updater.py
 ### Update your Python apps with Git.
 
-
 **Dependencies**
 
 1. Git for Windows/Mac/Linux/BSD: download at https://git-scm.com/
@@ -22,7 +21,7 @@
 
 *Some options are not available in configureUpdater, so edit them manually here. A guide will also be inside the `config.py`.*
 
-`appName`: Name of your application (does nothing but indentification)
+`appName`: Name of your application.
 
 `appRepo`: The address of the Git repo, e.g https://github.com/jkelol111/updater.py.git (don't forget `.git` at the end!)
 
@@ -30,7 +29,7 @@
 
 `backupOn`: Backup on/off switch. Integers other than 0 (off) or 1 (on) will be regarded as non-valid options and will not be considered. This being on will automatically copy `config.py` from the old app to the new one.
 
-`backupDir`: Choose a folder to automatically copy to the new app, e.g `.../app/data` (not `.../app/` because then it means your copying the whole old app anyways, and `updater.py` is still running inside that folder.)
+`backupDir`: Choose a folder to automatically copy to the new app, e.g `.../app/data` (not `.../app/` because then it means you are copying the whole old app anyways, and `updater.py` is still running inside that folder.)
 
 `logLevel`: How detailed is the updater's log. (this might be useful for nothing, because `try:` and `except Exception as e` is already sitting there to spew errors.)
 
