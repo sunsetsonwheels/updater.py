@@ -15,7 +15,7 @@
 
 3. `configureUpdater("*appname*", "*linkonGitHub*", "*appdirectory*")` in your app, or edit `config.py` (more details later on...)
 
-4. When you need to update, `updateAppNow`. This will create a new folder freshly cloned from you Git repo and leave the old one with `updater.py` and `config.py`intact. If you want to move your app data and configured `updater.py` from the old folder, have a look at *config.py savagery* below.
+4. When you need to update, `updateAppNow()`. This will create a new folder freshly cloned from you Git repo and leave the old one with `updater.py` and `config.py`intact. If you want to move your app data and configured `updater.py` from the old folder, have a look at *config.py savagery* below.
 
 **config.py guide**
 
