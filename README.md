@@ -15,7 +15,7 @@
 
 3. Edit `config.py` (more details later on...)
 
-4. When you need to update, `updateAppNow()`. This will create a new folder freshly cloned from you Git repo and leave the old one with `updater.py` and `config.py`intact. If you want to move your app data and configured `updater.py` from the old folder, have a look at *config.py guide* below.
+4. When you need to update, `updateAppNow()`. This will create a new folder freshly cloned from you Git repo and leave the old one with `updater.py` and `config.py`intact. If you want to move your app data and configured `updater.py` from the old folder, have a look at *`config.py` guide* below.
 
 **config.py guide**
 
@@ -33,4 +33,4 @@
 
 **Future plans**
 
-1. Actually putting this on GitHub.
+1. Getting this to actually work.
