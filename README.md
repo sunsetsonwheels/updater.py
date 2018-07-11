@@ -9,7 +9,7 @@
 
 **How to use**
 
-1. Clone this repo into your app's root directory after installing dependencies.
+1. Clone this repo into your one folder outside your app's root directory after installing dependencies.
 
 2. In your app: `from updater import *`
 
