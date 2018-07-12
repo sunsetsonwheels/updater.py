@@ -12,8 +12,15 @@ def exList(ex):
 
 try:
     from git import Repo
-    import os
+    from os.path import join
+    from os import mkdir
+    from os.path import basename
+    from os import name
     from shutil import rmtree
+    from shutil import copy2
+    from shutil import copytree
+    from getpass import getuser
+    #import yaml
     import config as cfg
     appName = cfg.appName
     appRepo = cfg.appRepo
@@ -33,13 +40,48 @@ def updateNow():
         try:
             print("Update/Reinstall running.")
             print("[1/3] Emptying folder of application.")
-            rmtree(appDir)
+
+            if backupOn == 0:
+                rmtree(appDir)
+            elif backupOn == 1:
+                if backupDir == appDir:
+                    print("You have not configured your config.py. The updater will now terminate!")
+                    exit()
+                else:
+                    print("[1.5/3] Backing up your app.")
+                    exConfigDir = join(appDir+"config.py")
+                    exBackupDir = join(appDir+backupDir)
+                    backupDirName = basename(exBackupDir)
+                    username = getuser()
+                    if name == "windows":
+                        tmpBackupDirWin = str("C:/Users/"+username+"/.tmp_updater")
+                        mkdir(tmpBackupDirWin)
+                        copy2(exConfigDir, tmpBackupDirWin)
+                        copytree(exBackupDir, tmpBackupDirWin)
+                    elif name == "posix":
+                        tmpBackupDirNix = str("~/.tmp_updater")
+                        mkdir(tmpBackupDirNix)
+                        copy2(exConfigDir, tmpBackupDirNix)
+                        copytree(exBackupDir, tmpBackupDirNix)
+                    else:
+                        print("updater.py cannot be run on your PC. The updater will now terminate!")
+                        exit()
+                
             print("[2/3] Downloading new version of application.")
-            os.mkdir(appDir)
+            mkdir(appDir)
             Repo.clone_from(appRepo, appDir)
+
             print("[3/3] Installing new version of application.")
+            rmtree(join(appDir+"/.git"))
+
             #newAppDir = os.path.abspath(appDir+"/"+appExecName) 
             #exec(newAppDir)
             print("Update/Reinstall completed.")
         except Exception as e:
             exList(e)
+
+def removeUpdate():
+    if backupOn == 0:
+        print("The update cannot be reverted, since nothing is backed up.")
+    elif backupOn == 1:
+        rmtree(appDir)
