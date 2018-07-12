@@ -11,7 +11,7 @@ def exList(ex):
     exit()
 
 try:
-    import git
+    from git import Repo
     import os
     from shutil import rmtree
     import config as cfg
@@ -36,12 +36,10 @@ def updateNow():
             rmtree(appDir)
             print("[2/3] Downloading new version of application.")
             os.mkdir(appDir)
-            git.Git(appDir).clone(appRepo)
+            Repo.clone_from(appRepo, appDir)
             print("[3/3] Installing new version of application.")
-            newAppDir = os.path.abspath(appDir+"/"+appExecName) 
-            exec(newAppDir)
+            #newAppDir = os.path.abspath(appDir+"/"+appExecName) 
+            #exec(newAppDir)
             print("Update/Reinstall completed.")
         except Exception as e:
             exList(e)
-
-updateNow()
