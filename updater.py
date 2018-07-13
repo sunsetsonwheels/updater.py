@@ -12,9 +12,7 @@ def exList(ex):
 
 try:
     from git import Repo
-    from os.path import join
     from os import mkdir
-    from os.path import basename
     from os import name
     from shutil import rmtree
     from shutil import copy2
@@ -31,6 +29,32 @@ try:
 except Exception as e:
     exList(e)
 
+def cleanupNow():
+    if name == "windows":
+        tmpBackupDirWin = str("C:/Users/"+username+"/.tmp_updater")
+        rmtree(tmpBackupDirWin)
+    elif name == "posix":
+        tmpBackupDirNix = str("~/.tmp_updater")
+        rmtree(tmpBackupDirNix)
+
+def backupNow():
+    exConfigDir = join(appDir+"config.py")
+    exBackupDir = join(appDir+backupDir)
+    username = getuser()
+    if name == "windows":
+        tmpBackupDirWin = str("C:/Users/"+username+"/.tmp_updater")
+        mkdir(tmpBackupDirWin)
+        copy2(exConfigDir, tmpBackupDirWin)
+        copytree(exBackupDir, tmpBackupDirWin)
+    elif name == "posix":
+        tmpBackupDirNix = str("/home/"+username+"/.tmp_updater")
+        mkdir(tmpBackupDirNix)
+        copy2(exConfigDir, tmpBackupDirNix)
+        copytree(exBackupDir, tmpBackupDirNix)
+    else:
+        print("updater.py cannot be run on your PC. The updater will now terminate!")
+        exit()
+
 def updateNow():
     print("[!] This program is extremely unstable. Exceptions are nearly certain to occur.")
     if appRepo == "http://www.example.com/project.git":
@@ -40,39 +64,18 @@ def updateNow():
         try:
             print("Update/Reinstall running.")
             print("[1/3] Emptying folder of application.")
-
             if backupOn == 0:
                 rmtree(appDir)
             elif backupOn == 1:
-                if backupDir == appDir:
-                    print("You have not configured your config.py. The updater will now terminate!")
-                    exit()
-                else:
-                    print("[1.5/3] Backing up your app.")
-                    exConfigDir = join(appDir+"config.py")
-                    exBackupDir = join(appDir+backupDir)
-                    backupDirName = basename(exBackupDir)
-                    username = getuser()
-                    if name == "windows":
-                        tmpBackupDirWin = str("C:/Users/"+username+"/.tmp_updater")
-                        mkdir(tmpBackupDirWin)
-                        copy2(exConfigDir, tmpBackupDirWin)
-                        copytree(exBackupDir, tmpBackupDirWin)
-                    elif name == "posix":
-                        tmpBackupDirNix = str("~/.tmp_updater")
-                        mkdir(tmpBackupDirNix)
-                        copy2(exConfigDir, tmpBackupDirNix)
-                        copytree(exBackupDir, tmpBackupDirNix)
-                    else:
-                        print("updater.py cannot be run on your PC. The updater will now terminate!")
-                        exit()
+                backupNow()
+                rmtree(appDir)
                 
             print("[2/3] Downloading new version of application.")
             mkdir(appDir)
             Repo.clone_from(appRepo, appDir)
 
             print("[3/3] Installing new version of application.")
-            rmtree(join(appDir+"/.git"))
+            rmtree(appDir+"/.git")
 
             #newAppDir = os.path.abspath(appDir+"/"+appExecName) 
             #exec(newAppDir)
@@ -80,7 +83,7 @@ def updateNow():
         except Exception as e:
             exList(e)
 
-def removeUpdate():
+def removeUpdateNow():
     if backupOn == 0:
         print("The update cannot be reverted, since nothing is backed up.")
     elif backupOn == 1:
