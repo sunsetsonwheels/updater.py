@@ -9,13 +9,13 @@
 
 **How to use**
 
-1. Clone this repo into your one folder outside your app's root directory after installing dependencies.
+1. Clone this repo into your app's root directory after installing dependencies.
 
 2. In your app: `from updater import *`
 
 3. Edit `config.py` (more details later on...)
 
-4. When you need to update, `updateAppNow()`. This will create a new folder freshly cloned from you Git repo and leave the old one with `updater.py` and `config.py`intact. If you want to move your app data and configured `updater.py` from the old folder, have a look at *`config.py` guide* below.
+4. When you need to update, `updateAppNow()`. This will clone to the directory you defined in `config.py`. If you want to move your app data and configured `updater.py` from the old folder, have a look at *`config.py` guide* below.
 
 **config.py guide**
 
@@ -29,7 +29,7 @@
 
 `backupOn`: Backup on/off switch. Integers other than 0 (off) or 1 (on) will be regarded as non-valid options and will not be considered. This being on will automatically copy `config.py` from the old app to the new one.
 
-`backupDir`: Choose a folder to automatically copy to the new app, e.g `.../app/data` (not `.../app/` because then it means you are copying the whole old app anyways, and `updater.py` is still running inside that folder.)
+`backupDir`: The directory to backup from the application's root folder.
 
 **Future plans**
 
