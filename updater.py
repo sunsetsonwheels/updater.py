@@ -39,8 +39,6 @@ def checkConfig():
         configured = bool(False)
     elif appRepo == "http://www.example.com/project.git":
         configured = bool(False)
-    elif appExecName == "config.py":
-        configured = bool(False)
     elif appDir == "Nothing":
         configured = bool(False)
     else:
