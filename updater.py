@@ -15,6 +15,11 @@ try:
     from os import mkdir
     from os import name
     from os.path import isdir
+    from os import access
+    from os import W_OK
+    from os import chmod
+    from stat import S_IWUSR
+
     from shutil import rmtree
     from shutil import copy2
     from getpass import getuser
@@ -33,6 +38,11 @@ try:
     configured = bool(False)
 except Exception as e:
     exList(e)
+
+def onerrorPatch(func, path):
+    if not access(path, W_OK):
+        chmod(path, S_IWUSR)
+        func(path)
 
 def checkConfig():
     global configured
@@ -53,7 +63,7 @@ def cleanupNow():
     try:
         if name == "nt":
             if isdir(tmpBackupDirWin) == bool(True):
-                rmtree(tmpBackupDirWin)
+                rmtree(tmpBackupDirWin, onerror=onerrorPatch)
         elif name == "posix":
             if isdir(tmpBackupDirNix) == bool(False):
                 rmtree(tmpBackupDirNix)
@@ -97,7 +107,7 @@ def updateUpdaterNow():
     if name == "nt":
         updaterUpdatedDirWin = str(tmpBackupDirWin+"/updaterpy")
         if isdir(updaterUpdatedDirWin) == bool(True):
-            rmtree(updaterUpdatedDirWin)
+            rmtree(updaterUpdatedDirWin, onerror=onerrorPatch)
         mkdir(updaterUpdatedDirWin)
         Repo.clone_from(updaterRepoGit, updaterUpdatedDirWin)
         updaterUpdatedFileWin = str(updaterUpdatedDirWin+"/updater.py")
@@ -123,7 +133,7 @@ def updateNow():
             if backupOn == bool(True):
                 print("[1.5/3] Backing up config.py of application.")
                 backupConfigNow()
-            rmtree(appDir)
+            rmtree(appDir, onerror=onerrorPatch)
 
             print("[2/3] Downloading and installing new version of application.")
             mkdir(appDir)
