@@ -79,7 +79,6 @@ def restoreConfigNow():
         exList(e)
 
 def backupConfigNow():
-    print("[1.5/2] Backing up your configuration file.")
     cleanupNow()
     try:
         if name == "nt":
@@ -93,6 +92,25 @@ def backupConfigNow():
     except Exception as e:
         exList(e)
 
+def updateUpdaterNow():
+    updaterRepoGit = str("https://github.com/jkelol111/updater.py.git")
+    if name == "nt":
+        updaterUpdatedDirWin = str(tmpBackupDirWin+"/updaterpy")
+        if isdir(updaterUpdatedDirWin) == bool(True):
+            rmtree(updaterUpdatedDirWin)
+        mkdir(updaterUpdatedDirWin)
+        Repo.clone_from(updaterRepoGit, updaterUpdatedDirWin)
+        updaterUpdatedFileWin = str(updaterUpdatedDirWin+"/updater.py")
+        copy2(updaterUpdatedFileWin, appDir)
+    elif name == "posix":
+        updaterUpdatedDirNix = str(tmpBackupDirNix+"/updaterpy")
+        if isdir(updaterUpdatedDirNix) == bool(True):
+            rmtree(updaterUpdatedDirNix)
+        mkdir(updaterUpdatedDirNix)
+        Repo.clone_from(updaterRepoGit, updaterUpdatedDirNix)
+        updaterUpdatedFileNix = str(updaterUpdatedDirNix+"/updater.py")
+        copy2(updaterUpdatedFileNix, appDir)
+
 def updateNow():
     checkConfig()
     if configured == bool(False):
@@ -101,18 +119,22 @@ def updateNow():
     elif configured == bool(True):
         try:
             print("Update/Reinstall running.")
-            print("[1/2] Emptying folder of application.")
+            print("[1/3] Emptying folder of application.")
             if backupOn == bool(True):
+                print("[1.5/3] Backing up config.py of application.")
                 backupConfigNow()
             rmtree(appDir)
 
-            print("[2/2] Downloading and installing new version of application.")
+            print("[2/3] Downloading and installing new version of application.")
             mkdir(appDir)
             Repo.clone_from(appRepo, appDir)
 
-            print("[2.5/2] Restoring app configuration files.")
             if backupOn == bool(True):
+                print("[2.5/3] Restoring app configuration files.")
                 restoreConfigNow()
+
+            print("[3/3] Downloading and installing updater.py for application.")
+            updateUpdaterNow()
 
             print("Update/Reinstall completed.")
         except Exception as e:
