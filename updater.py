@@ -39,7 +39,7 @@ try:
 except Exception as e:
     exList(e)
 
-def onerrorPatch(func, path):
+def onerrorPatch(func, path, exc_info):
     if not access(path, W_OK):
         chmod(path, S_IWUSR)
         func(path)
