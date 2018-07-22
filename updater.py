@@ -192,9 +192,6 @@ def updateUpdaterNow():
         logger("updateUpdater", "begin")
         if isfile(updaterFile) == bool(True):
             remove(updaterFile)
-        else:
-            continue
-
         if system() == "Windows":
             updaterUpdatedDirWin = str(tmpBackupDirWin+"/updaterpy")
             if isdir(updaterUpdatedDirWin) == bool(True):
@@ -219,10 +216,9 @@ def updateUpdaterNow():
             Repo.clone_from(updaterRepoGit, updaterUpdatedDirOSX)
             updaterUpdatedFileOSX = str(updaterUpdatedDirOSX+"/updater.py")
             copy2(updaterUpdatedFileOSX, appDir)
-        logger("updateUpdater", "done")
-        else:
-            logger("notSupported", "")
+        logger("updateUpdater", "done")          
     except Exception as e:
+        logger("notSupported", "")
         exList(e)
 
 def updateNow():
