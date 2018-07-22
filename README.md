@@ -1,9 +1,10 @@
 # updater.py
 ### Update your Python apps with Git.
+#### Currently supports Windows/Linux/Mac OS X
 
 **Dependencies**
 
-1. Git for Windows/Mac/Linux/BSD: download at https://git-scm.com/
+1. Git for Windows/Linux/Mac: download at https://git-scm.com/
 
 2. GitPython: install at terminal with `pip3 install GitPython`
 
