@@ -33,7 +33,7 @@ def logger(log, subcat):
             elif subcat == "step3":
                 print("[3/3] Downloading and installing updater.py for application.")
             elif subcat == "done":
-                print("Update/Reinstall completed.")
+                print("[i] Update/Reinstall completed.")
         elif log == "restore":
             if subcat == "begin":
                 print("[i] Restoring your config.py.")
