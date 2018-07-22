@@ -1,8 +1,13 @@
 def exList(ex):
     ex_str = str(ex)
+    from platform import python_version
     print("During the usage of updater.py, we've encountered some errors. Here's the exception:")
     print("======================================================================================")
     print(ex_str)
+    print("======================================================================================")
+    print("System information:")
+    print("======================================================================================")
+    print(System)
     print("======================================================================================")
     print("Please do the following:")
     print("- If you're getting errors about config, reread your config file.")
@@ -12,9 +17,13 @@ def exList(ex):
 
 try:
     from git import Repo
+
+    from platform import system
+
     from os import mkdir
-    from os import name
     from os.path import isdir
+    from os.path import isfile
+    from os import remove
     from os import access
     from os import W_OK
     from os import chmod
@@ -22,6 +31,7 @@ try:
 
     from shutil import rmtree
     from shutil import copy2
+    
     from getpass import getuser
 
     import config as cfg
@@ -31,6 +41,7 @@ try:
     backupOn = cfg.backupOn
 
     configDir = str(appDir+"/config.py")
+    updaterDir = str(appDir+"/updater.py")
     username = getuser()
     tmpBackupDirWin = str("C:/Users/"+username+"/.tmp_updater")
     tmpBackupDirNix = str("/home/"+username+"/.tmp_updater")
@@ -104,6 +115,8 @@ def backupConfigNow():
 
 def updateUpdaterNow():
     updaterRepoGit = str("https://github.com/jkelol111/updater.py.git")
+    if isfile(updaterDir) == bool(True):
+        remove(updaterDir)
     if name == "nt":
         updaterUpdatedDirWin = str(tmpBackupDirWin+"/updaterpy")
         if isdir(updaterUpdatedDirWin) == bool(True):
