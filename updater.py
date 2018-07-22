@@ -65,7 +65,7 @@ def cleanupNow():
             if isdir(tmpBackupDirWin) == bool(True):
                 rmtree(tmpBackupDirWin, onerror=onerrorPatch)
         elif name == "posix":
-            if isdir(tmpBackupDirNix) == bool(False):
+            if isdir(tmpBackupDirNix) == bool(True):
                 rmtree(tmpBackupDirNix)
         else:
             cannotRun()
