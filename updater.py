@@ -11,17 +11,19 @@ def exList(ex):
     exit()
 
 def logger(log, subcat):
+    infosg = str("[i]")
+    warnsg = str("[!]")
     try:
         if log == "cleanup":
             if subcat == "begin":
-                print("[i] Deleting your temporary update files.")
+                print(infosg+" Deleting your temporary update files.")
             elif subcat == "done":
-                print("[i] Done deleting your temporary update files.")
+                print(infosg+" Done deleting your temporary update files.")
             elif subcat == "none":
-                print("[!] There is nothing to clean.")
+                print(warnsg+" There is nothing to clean.")
         elif log == "update":
             if subcat == "begin":
-                print("[i] Update/Reinstall commence.")
+                print(infosg+" Update/Reinstall commence.")
             elif subcat == "step1":
                 print("[1/3] Emptying folder of application.")
             elif subcat == "step1.5":
@@ -33,27 +35,27 @@ def logger(log, subcat):
             elif subcat == "step3":
                 print("[3/3] Downloading and installing updater.py for application.")
             elif subcat == "done":
-                print("[i] Update/Reinstall completed.")
+                print(infosg+" Update/Reinstall completed.")
         elif log == "restore":
             if subcat == "begin":
-                print("[i] Restoring your config.py.")
+                print(infosg+" Restoring your config.py.")
             if subcat == "done":
-                print("[i] Done restoring your config.py.")
+                print(infosg+" Done restoring your config.py.")
             if subcat == "none":
-                print("[!] There is no config.py to restore.")
+                print(warnsg+" There is no config.py to restore.")
         elif log == "backup":
             if subcat == "begin":
-                print("[i] Backing up your config.py.")
+                print(infosg+" Backing up your config.py.")
             if subcat == "done":
-                print("[i] Done backing up your config.py.")
+                print(infosg+" Done backing up your config.py.")
             if subcat == "none":
-                print("[!] There is no config.py to back up.")
+                print(warnsg+" There is no config.py to back up.")
         elif log == "notSupported":
-            print("[!] Your OS does not support updater.py. The updater will now exit!")
+            print(warnsg+" Your OS does not support updater.py. The updater will now exit!")
         elif log == "notConfigured":
-            print("[!] You have not configured your config.py. The updater will now terminate!")
+            print(warnsg+" You have not configured your config.py. The updater will now terminate!")
     except:
-        print("logger does not have that!")
+        print(warnsg+"logger does not have that!")
 
 try:
     from git import Repo
