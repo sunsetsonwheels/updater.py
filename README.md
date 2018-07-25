@@ -10,7 +10,7 @@
 
 **How to use**
 
-1. Download a release into your app's root directory after installing dependencies.
+1. Download a release from: https://github.com/jkelol111/updater.py/releases into your app's root directory after installing dependencies.
 
 2. In your app: `import updater`
 
