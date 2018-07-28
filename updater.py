@@ -262,7 +262,7 @@ def updateNow():
             updateUpdaterNow()
 
             if createLaunchScriptOn == bool(True):
-                createLaunchScriptNow()
+                createLauncherNow()
 
             logger("update", "done")
         except Exception as e:
