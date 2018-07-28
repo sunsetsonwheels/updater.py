@@ -50,6 +50,13 @@ def logger(log, subcat):
                 print(infosg+" Done backing up your config.py.")
             elif subcat == "none":
                 print(warnsg+" There is no config.py to back up.")
+        elif log == "updateupdater":
+            if subcat == "begin":
+                print(infosg+" Downloading and installing updater.py for application.")
+            elif subcat == "done":
+                print(infosg+" Done downloading and installing updater.py for application.")
+            elif subcat == "error":
+                print(warnsg+" Cannot download and install updater.py for application.")
         elif log == "createlauncher":
             if subcat == "begin":
                 print(infosg+" Creating your application launcher.")
@@ -203,7 +210,7 @@ def backupConfigNow():
 def updateUpdaterNow():
     updaterRepoGit = str("https://github.com/jkelol111/updater.py.git")
     try:
-        logger("updateUpdater", "begin")
+        logger("updateupdater", "begin")
         if isfile(updaterFile) == bool(True):
             remove(updaterFile)
         if system() == "Windows":
@@ -230,9 +237,11 @@ def updateUpdaterNow():
             Repo.clone_from(updaterRepoGit, updaterUpdatedDirOSX)
             updaterUpdatedFileOSX = str(updaterUpdatedDirOSX+"/updater.py")
             copy2(updaterUpdatedFileOSX, appDir)
-        logger("updateUpdater", "done")          
+        else:
+            logger("notSupported", "")
+        logger("updateupdater", "done")          
     except Exception as e:
-        logger("notSupported", "")
+        logger("updateupdater", "error")
         exList(e)
 
 def updateNow():
@@ -286,13 +295,13 @@ def createLauncherNow():
         if system() == "Windows":
             launchScriptWinDir = str(launchScriptGenericDir+".bat")
             launchScriptWin = open(launchScriptGenericDir+".bat", "w+")
-            launchScriptWin.write("python -m "+launchScriptWinDir+"\n")
+            launchScriptWin.write("python -m "+appExecName+"\n")
             launchScriptWin.write("pause")
             launchScriptWin.close()
         elif system() == "Linux" or system() == "Darwin":
             launchScriptNixDir = str(launchScriptGenericDir+".sh")
             launchScriptNix = open(launchScriptGenericDir+".sh", "w+")
-            launchScriptNix.write("python -m "+launchScriptNixDir+"\n")
+            launchScriptNix.write("python -m "+appExecName+"\n")
             launchScriptNix.write("read")
             launchScriptNix.close()
             chmod(launchScriptNixDir, S_IXUSR)
