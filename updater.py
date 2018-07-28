@@ -295,13 +295,13 @@ def createLauncherNow():
         if system() == "Windows":
             launchScriptWinDir = str(launchScriptGenericDir+".bat")
             launchScriptWin = open(launchScriptGenericDir+".bat", "w+")
-            launchScriptWin.write("python -m "+appExecName+"\n")
+            launchScriptWin.write("python "+appExecName+"\n")
             launchScriptWin.write("pause")
             launchScriptWin.close()
         elif system() == "Linux" or system() == "Darwin":
             launchScriptNixDir = str(launchScriptGenericDir+".sh")
             launchScriptNix = open(launchScriptGenericDir+".sh", "w+")
-            launchScriptNix.write("python -m "+appExecName+"\n")
+            launchScriptNix.write("python "+appExecName+"\n")
             launchScriptNix.write("read")
             launchScriptNix.close()
             chmod(launchScriptNixDir, S_IXUSR)
