@@ -26,6 +26,8 @@
 
 3. `restoreConfigNow()`: Attempts to restore a backed up `config.py` to your application directory. Does nothing if file doesn't exist.
 
+4. `createLauncherNow()`: Creates a launcher in a form of a `.bat` or `.sh` for easy launching of your app.
+
 **config.py guide**
 
 *A guide will also be inside the `config.py`.*

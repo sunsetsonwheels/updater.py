@@ -279,19 +279,20 @@ def configureConfigNow(name, repo, directory, bckOn):
     except Exception as e:
         exList(e)
 
-def createLaunchScriptNow():
+def createLauncherNow():
     try:
         logger("createlauncher", "begin")
         launchScriptGenericDir = str(appDir+"/"+appName)
         if system() == "Windows":
+            launchScriptWinDir = str(launchScriptGenericDir+".bat")
             launchScriptWin = open(launchScriptGenericDir+".bat", "w+")
-            launchScriptWin.write("python -m "+launchScriptWin+"\n")
+            launchScriptWin.write("python -m "+launchScriptWinDir+"\n")
             launchScriptWin.write("pause")
             launchScriptWin.close()
         elif system() == "Linux" or system() == "Darwin":
             launchScriptNixDir = str(launchScriptGenericDir+".sh")
             launchScriptNix = open(launchScriptGenericDir+".sh", "w+")
-            launchScriptNix.write("python -m "+launchScriptNix+"\n")
+            launchScriptNix.write("python -m "+launchScriptNixDir+"\n")
             launchScriptNix.write("read")
             launchScriptNix.close()
             chmod(launchScriptNixDir, S_IXUSR)
