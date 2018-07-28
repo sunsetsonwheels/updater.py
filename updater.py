@@ -39,17 +39,24 @@ def logger(log, subcat):
         elif log == "restore":
             if subcat == "begin":
                 print(infosg+" Restoring your config.py.")
-            if subcat == "done":
+            elif subcat == "done":
                 print(infosg+" Done restoring your config.py.")
-            if subcat == "none":
+            elif subcat == "none":
                 print(warnsg+" There is no config.py to restore.")
         elif log == "backup":
             if subcat == "begin":
                 print(infosg+" Backing up your config.py.")
-            if subcat == "done":
+            elif subcat == "done":
                 print(infosg+" Done backing up your config.py.")
-            if subcat == "none":
+            elif subcat == "none":
                 print(warnsg+" There is no config.py to back up.")
+        elif log == "createlauncher":
+            if subcat == "begin":
+                print(infosg+" Creating your application launcher.")
+            elif subcat == "done":
+                print(infosg+" Done creating your application launcher.")
+            elif subcat == "error":
+                print(warnsg+" Cannot create a launcher file.")
         elif log == "notSupported":
             print(warnsg+" Your OS does not support updater.py. The updater will now exit!")
         elif log == "notConfigured":
@@ -70,6 +77,7 @@ try:
     from os import W_OK
     from os import chmod
     from stat import S_IWUSR
+    from stat import S_IXUSR
 
     from shutil import rmtree
     from shutil import copy2
@@ -80,7 +88,9 @@ try:
     appName = cfg.appName
     appRepo = cfg.appRepo
     appDir = cfg.appDir
+    appExecName = cfg.appExecName
     backupOn = cfg.backupOn
+    createLaunchScriptOn = cfg.createLaunchScriptOn
 
     configFile = str(appDir+"/config.py")
     updaterFile = str(appDir+"/updater.py")
@@ -105,6 +115,8 @@ def checkConfig():
     elif appRepo == "http://www.example.com/project.git":
         configured = bool(False)
     elif appDir == "Nothing":
+        configured = bool(False)
+    elif appExecName == str("Nothing.py"):
         configured = bool(False)
     else:
         configured = bool(True)
@@ -249,6 +261,9 @@ def updateNow():
             logger("update", "step3")
             updateUpdaterNow()
 
+            if createLaunchScriptOn == bool(True):
+                createLaunchScriptNow()
+
             logger("update", "done")
         except Exception as e:
             exList(e)
@@ -256,10 +271,33 @@ def updateNow():
 def configureConfigNow(name, repo, directory, bckOn):
     try:
         configFileWrite = open(configFile, 'w')
-        configFileWrite.write("appName = '"+name+"'")
-        configFileWrite.write("appRepo = '"+repo+"'")
-        configFileWrite.write("appDir = '"+directory+"'")
-        configFileWrite.write("backupOn = "+bckOn)
+        configFileWrite.write("appName = '"+name+"'"+"\n")
+        configFileWrite.write("appRepo = '"+repo+"'"+"\n")
+        configFileWrite.write("appDir = '"+directory+"'"+"\n")
+        configFileWrite.write("backupOn = "+bckOn+"\n")
         configFileWrite.close()
     except Exception as e:
+        exList(e)
+
+def createLaunchScriptNow():
+    try:
+        logger("createlauncher", "begin")
+        launchScriptGenericDir = str(appDir+"/"+appName)
+        if system() == "Windows":
+            launchScriptWin = open(launchScriptGenericDir+".bat", "w+")
+            launchScriptWin.write("python -m "+launchScriptWin+"\n")
+            launchScriptWin.write("pause")
+            launchScriptWin.close()
+        elif system() == "Linux" or system() == "Darwin":
+            launchScriptNixDir = str(launchScriptGenericDir+".sh")
+            launchScriptNix = open(launchScriptGenericDir+".sh", "w+")
+            launchScriptNix.write("python -m "+launchScriptNix+"\n")
+            launchScriptNix.write("read")
+            launchScriptNix.close()
+            chmod(launchScriptNixDir, S_IXUSR)
+        else:
+            logger("notSupported", "")
+        logger("createlauncher", "done")
+    except Exception as e:
+        logger("createlauncher", "error")
         exList(e)

@@ -38,4 +38,8 @@
 
 `appDir`: Your app's directory.
 
+`appExecName`: Your app's Python file name (`updater.py` for example). Used to create shell scripts that an user can simply launch in order to use your app (probably redundant on Windows because `py` launcher is preinstalled).
+
 `backupOn`: Backup on/off switch. `True` or `False` booleen. This being on will automatically copy `config.py` from the old app to the new one.
+
+`createLaunchScriptOn`: create launcher script for supported OSes on/off switch. `True` or `False` booleen. Double-click the generated script to launch application (in most situations (!))
