@@ -92,6 +92,7 @@ try:
     from getpass import getuser
 
     import config as cfg
+	configVersion = cfg.configVersion
     appName = cfg.appName
     appRepo = cfg.appRepo
     appDir = cfg.appDir
@@ -311,3 +312,6 @@ def createLauncherNow():
     except Exception as e:
         logger("createlauncher", "error")
         exList(e)
+
+def about():
+	print("COnfiguration file version")

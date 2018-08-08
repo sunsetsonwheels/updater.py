@@ -1,4 +1,5 @@
 #Read README.md to learn more about this configuration file!
+configVersion = "2"
 appName = str("Nothing")
 appRepo = str("http://www.example.com/project.git")
 appDir = str("Nothing")
