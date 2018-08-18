@@ -64,6 +64,12 @@ def logger(log, subcat):
                 print(infosg+" Done creating your application launcher.")
             elif subcat == "error":
                 print(warnsg+" Cannot create a launcher file.")
+        elif log == "init":
+            if subcat == "loadYaml":
+                print(infosg+" Loaded configuration from config.yml.")
+            elif subcat == "loadOldCfg":
+                print(infosg+" Loaded configuration from config.py")
+                print(warnsg+" This method of configuring updater.py will be deprecated soon. Please move on to the new config.yml format ASAP.")
         elif log == "notSupported":
             print(warnsg+" Your OS does not support updater.py. The updater will now exit!")
         elif log == "notConfigured":
@@ -79,28 +85,34 @@ try:
     from os import mkdir
     from os.path import isdir
     from os.path import isfile
+    from os.path import dirname
+    from os.path import join
+    from os.path import realpath
     from os import remove
     from os import access
     from os import W_OK
     from os import chmod
     from stat import S_IWUSR
     from stat import S_IXUSR
+    from yaml import load
+    from yaml import dump
 
     from shutil import rmtree
     from shutil import copy2
     
     from getpass import getuser
 
-    import config as cfg
-	configVersion = cfg.configVersion
-    appName = cfg.appName
-    appRepo = cfg.appRepo
-    appDir = cfg.appDir
-    appExecName = cfg.appExecName
-    backupOn = cfg.backupOn
-    createLaunchScriptOn = cfg.createLaunchScriptOn
+    with open(dirname(realpath(__file__))+"/config.yml", 'r') as config_file:
+        config_contents = load(config_file)
+    appName = config_contents["appName"]
+    appRepo = config_contents["appRepo"]
+    appDir = config_contents["appDir"]
+    appExecName = config_contents["appExecName"]
+    backupOn = config_contents["backupOn"]
+    createLaunchScriptOn = config_contents["createLaunchScriptOn"]
+    logger("init", "loadYaml")
 
-    configFile = str(appDir+"/config.py")
+    configFile = str(appDir+"/config.yml")
     updaterFile = str(appDir+"/updater.py")
     username = getuser()
     tmpBackupDirWin = str("C:/Users/"+username+"/.tmp_updater")
@@ -278,17 +290,6 @@ def updateNow():
         except Exception as e:
             exList(e)
 
-def configureConfigNow(name, repo, directory, bckOn):
-    try:
-        configFileWrite = open(configFile, 'w')
-        configFileWrite.write("appName = '"+name+"'"+"\n")
-        configFileWrite.write("appRepo = '"+repo+"'"+"\n")
-        configFileWrite.write("appDir = '"+directory+"'"+"\n")
-        configFileWrite.write("backupOn = "+bckOn+"\n")
-        configFileWrite.close()
-    except Exception as e:
-        exList(e)
-
 def createLauncherNow():
     try:
         logger("createlauncher", "begin")
@@ -313,5 +314,23 @@ def createLauncherNow():
         logger("createlauncher", "error")
         exList(e)
 
+def createConfigNow(name, repo, directory, appExeName, bckOn, createCfgOn):
+    try:
+        config_dict = dict(
+            appName = name,
+            appRepo = repo,
+            appDir = directory,
+            appExecName = appExeName,
+            backupOn = bckOn,
+            createLaunchScriptOn = createCfgOn
+        )
+        with open(dirname(realpath(__file__))+"/config.yml", "w") as config_file:
+            dump(config_dict, config_file)
+    except Exception as e:
+        print(str(e))
+        exit()
+
 def about():
 	print("COnfiguration file version")
+
+#createConfigNow("Nothing", "http://www.example.com/project.git", "Nothing", "Nothing.py", False, False)
