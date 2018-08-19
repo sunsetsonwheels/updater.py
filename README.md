@@ -1,6 +1,6 @@
 # updater.py
 ### Update your Python apps with Git.
-#### Currently supports Windows with *partial* support for Linux/Mac
+#### Currently supports Windows/Linux with *partial* support for Mac
 
 **Dependencies**
 
@@ -10,7 +10,7 @@
 
 **How to use**
 
-1. Download a release from: https://github.com/jkelol111/updater.py/releases into your app's root directory after installing dependencies.
+1. Download the latest release from: https://github.com/jkelol111/updater.py/releases into your app's root directory after installing dependencies.
 
 2. In your app: `import updater`
 
@@ -30,8 +30,6 @@
 
 **config.py guide**
 
-*A guide will also be inside the `config.py`.*
-
 *You can always use `configureConfigNow(name, repo, directory, appexename, bckOn, createlauncherOn)` to configure this file.*
 
 `appName`: Name of your application.
@@ -45,3 +43,7 @@
 `backupOn`: Backup on/off switch. `True` or `False` booleen. This being on will automatically copy `config.py` from the old app to the new one.
 
 `createLaunchScriptOn`: create launcher script for supported OSes on/off switch. `True` or `False` booleen. Double-click the generated script to launch application (in most situations (!))
+
+**Current limitations**
+
+1. Cannot backup more than one app's config at a time (**Slated for version 1.1.0**)
