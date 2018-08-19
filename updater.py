@@ -304,6 +304,8 @@ def configureConfigNow(name, repo, directory, appexename, bckOn, createlauncherO
         global appExecName
         global backupOn
         global createLaunchScriptOn
+        global configFile
+        global updaterFile
         appName = name
         appRepo = repo
         appDir = directory
