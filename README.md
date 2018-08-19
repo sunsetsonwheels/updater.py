@@ -32,7 +32,7 @@
 
 *A guide will also be inside the `config.py`.*
 
-*You can always use `configureConfigNow(*name*, *repo*, *dir*, *bckOn*)` to configure this file.*
+*You can always use `configureConfigNow(name, repo, directory, appexename, bckOn, createlauncherOn)` to configure this file.*
 
 `appName`: Name of your application.
 
