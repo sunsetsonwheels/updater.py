@@ -1,6 +1,6 @@
 # updater.py
 ### Update your Python apps with Git.
-#### Currently supports Windows/Linux/Mac OS X
+#### Currently supports Windows with *partial* support for Linux/Mac
 
 **Dependencies**
 
