@@ -240,27 +240,27 @@ def updateUpdaterNow():
             remove(updaterFile)
         if system() == "Windows":
             updaterUpdatedDirWin = str(tmpBackupDirWin2+"/"+updaterAppID)
-            if isdir(updaterUpdatedDirWin2) == bool(True):
-                rmtree(updaterUpdatedDirWin2, onerror=onerrorPatch)
-            mkdir(updaterUpdatedDirWin2)
-            Repo.clone_from(updaterRepoGit, updaterUpdatedDirWin2)
-            updaterUpdatedFileWin = str(updaterUpdatedDirWin2+"/updater.py")
+            if isdir(updaterUpdatedDirWin) == bool(True):
+                rmtree(updaterUpdatedDirWin, onerror=onerrorPatch)
+            mkdir(updaterUpdatedDirWin)
+            Repo.clone_from(updaterRepoGit, updaterUpdatedDirWin)
+            updaterUpdatedFileWin = str(updaterUpdatedDirWin+"/updater.py")
             copy2(updaterUpdatedFileWin, appDir)
         elif system() == "Linux":
             updaterUpdatedDirNix = str(tmpBackupDirNix2+"/"+updaterAppID)
-            if isdir(updaterUpdatedDirNix2) == bool(True):
-                rmtree(updaterUpdatedDirNix2)
-            mkdir(updaterUpdatedDirNix2)
-            Repo.clone_from(updaterRepoGit, updaterUpdatedDirNix2)
-            updaterUpdatedFileNix = str(updaterUpdatedDirNix2+"/updater.py")
+            if isdir(updaterUpdatedDirNix) == bool(True):
+                rmtree(updaterUpdatedDirNix)
+            mkdir(updaterUpdatedDirNix)
+            Repo.clone_from(updaterRepoGit, updaterUpdatedDirNix)
+            updaterUpdatedFileNix = str(updaterUpdatedDirNix+"/updater.py")
             copy2(updaterUpdatedFileNix, appDir)
         elif system() == "Darwin":
             updaterUpdatedDirOSX = str(tmpBackupDirOSX2+"/"+updaterAppID)
-            if isdir(updaterUpdatedDirOSX2) == bool(True):
-                rmtree(updaterUpdatedDirOSX2)
-            mkdir(updaterUpdatedDirOSX2)
-            Repo.clone_from(updaterRepoGit, updaterUpdatedDirOSX2)
-            updaterUpdatedFileOSX = str(updaterUpdatedDirOSX2+"/updater.py")
+            if isdir(updaterUpdatedDirOSX) == bool(True):
+                rmtree(updaterUpdatedDirOSX)
+            mkdir(updaterUpdatedDirOSX)
+            Repo.clone_from(updaterRepoGit, updaterUpdatedDirOSX)
+            updaterUpdatedFileOSX = str(updaterUpdatedDirOSX+"/updater.py")
             copy2(updaterUpdatedFileOSX, appDir)
         else:
             logger("notSupported", "")
