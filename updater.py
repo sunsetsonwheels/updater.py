@@ -71,6 +71,13 @@ def logger(log, subcat):
                 print(infosg+" Done creating your configuration file.")
             elif subcat == "error":
                 print(warnsg+" Cannot create a configuration file.")
+        elif log == "loadConfig":
+            if subcat == "begin":
+                print(infosg+" Loading your configuration file.")
+            elif subcat == "done":
+                print(infosg+" Done loading your configuration file.")
+            elif subcat == "error":
+                print(warnsg+" Cannot load your configuration file.")
         elif log == "notSupported":
             print(warnsg+" Your OS does not support updater.py. The updater will now exit!")
         elif log == "notConfigured":
@@ -90,6 +97,8 @@ try:
     from os import access
     from os import W_OK
     from os import chmod
+    from os.path import dirname
+    from os.path import realpath
     from stat import S_IWUSR
     from stat import S_IXUSR
 
@@ -98,20 +107,25 @@ try:
     
     from getpass import getuser
 
-    import config as cfg
-    appName = cfg.appName
-    appRepo = cfg.appRepo
-    appDir = cfg.appDir
-    appExecName = cfg.appExecName
-    backupOn = cfg.backupOn
-    createLaunchScriptOn = cfg.createLaunchScriptOn
-
-    configFile = str(appDir+"/config.py")
-    updaterFile = str(appDir+"/updater.py")
+    if isfile(dirname(realpath(__file__))+"/config.py") == True:
+        logger("loadConfig", "begin")
+        import config as cfg
+        appIdentifier = cfg.appIdentifier
+        appRepo = cfg.appRepo
+        appDir = cfg.appDir
+        appExecName = cfg.appExecName
+        backupOn = cfg.backupOn
+        createLaunchScriptOn = cfg.createLaunchScriptOn
+        configFile = str(appDir+"/config.py")
+        updaterFile = str(appDir+"/updater.py")
+        logger("loadConfig", "done")
+    else:
+        logger("loadConfig", "error")
+        exit()
     username = getuser()
-    tmpBackupDirWin = str("C:/Users/"+username+"/.tmp_updater")
-    tmpBackupDirNix = str("/home/"+username+"/.tmp_updater")
-    tmpBackupDirOSX = str("/Users/"+username+"/.tmp_updater")
+    tmpBackupDirWin = str("C:/Users/"+username+"/.tmp_updater"+"/"+appIdentifier)
+    tmpBackupDirNix = str("/home/"+username+"/.tmp_updater"+"/"+appIdentifier)
+    tmpBackupDirOSX = str("/Users/"+username+"/.tmp_updater"+"/"+appIdentifier)
 
     configured = bool(False)
 except Exception as e:
@@ -124,7 +138,7 @@ def onerrorPatch(func, path, exc_info):
 
 def checkConfig():
     global configured
-    if appName == "Nothing":
+    if appIdentifier == "com.sample.nothing":
         configured = bool(False)
     elif appRepo == "http://www.example.com/project.git":
         configured = bool(False)
@@ -216,33 +230,37 @@ def backupConfigNow():
 
 def updateUpdaterNow():
     updaterRepoGit = str("https://github.com/jkelol111/updater.py.git")
+    updaterAppID = str("com.jkelol111.updater")
+    tmpBackupDirWin2 = str("C:/Users/"+username+"/.tmp_updater")
+    tmpBackupDirNix2 = str("/home/"+username+"/.tmp_updater")
+    tmpBackupDirOSX2 = str("/Users/"+username+"/.tmp_updater")
     try:
         logger("updateupdater", "begin")
         if isfile(updaterFile) == bool(True):
             remove(updaterFile)
         if system() == "Windows":
-            updaterUpdatedDirWin = str(tmpBackupDirWin+"/updaterpy")
-            if isdir(updaterUpdatedDirWin) == bool(True):
-                rmtree(updaterUpdatedDirWin, onerror=onerrorPatch)
-            mkdir(updaterUpdatedDirWin)
-            Repo.clone_from(updaterRepoGit, updaterUpdatedDirWin)
-            updaterUpdatedFileWin = str(updaterUpdatedDirWin+"/updater.py")
+            updaterUpdatedDirWin = str(tmpBackupDirWin2+"/"+updaterAppID)
+            if isdir(updaterUpdatedDirWin2) == bool(True):
+                rmtree(updaterUpdatedDirWin2, onerror=onerrorPatch)
+            mkdir(updaterUpdatedDirWin2)
+            Repo.clone_from(updaterRepoGit, updaterUpdatedDirWin2)
+            updaterUpdatedFileWin = str(updaterUpdatedDirWin2+"/updater.py")
             copy2(updaterUpdatedFileWin, appDir)
         elif system() == "Linux":
-            updaterUpdatedDirNix = str(tmpBackupDirNix+"/updaterpy")
-            if isdir(updaterUpdatedDirNix) == bool(True):
-                rmtree(updaterUpdatedDirNix)
-            mkdir(updaterUpdatedDirNix)
-            Repo.clone_from(updaterRepoGit, updaterUpdatedDirNix)
-            updaterUpdatedFileNix = str(updaterUpdatedDirNix+"/updater.py")
+            updaterUpdatedDirNix = str(tmpBackupDirNix2+"/"+updaterAppID)
+            if isdir(updaterUpdatedDirNix2) == bool(True):
+                rmtree(updaterUpdatedDirNix2)
+            mkdir(updaterUpdatedDirNix2)
+            Repo.clone_from(updaterRepoGit, updaterUpdatedDirNix2)
+            updaterUpdatedFileNix = str(updaterUpdatedDirNix2+"/updater.py")
             copy2(updaterUpdatedFileNix, appDir)
         elif system() == "Darwin":
-            updaterUpdatedDirOSX = str(tmpBackupDirOSX+"/updaterpy")
-            if isdir(updaterUpdatedDirOSX) == bool(True):
-                rmtree(updaterUpdatedDirOSX)
-            mkdir(updaterUpdatedDirOSX)
-            Repo.clone_from(updaterRepoGit, updaterUpdatedDirOSX)
-            updaterUpdatedFileOSX = str(updaterUpdatedDirOSX+"/updater.py")
+            updaterUpdatedDirOSX = str(tmpBackupDirOSX2+"/"+updaterAppID)
+            if isdir(updaterUpdatedDirOSX2) == bool(True):
+                rmtree(updaterUpdatedDirOSX2)
+            mkdir(updaterUpdatedDirOSX2)
+            Repo.clone_from(updaterRepoGit, updaterUpdatedDirOSX2)
+            updaterUpdatedFileOSX = str(updaterUpdatedDirOSX2+"/updater.py")
             copy2(updaterUpdatedFileOSX, appDir)
         else:
             logger("notSupported", "")
@@ -284,13 +302,11 @@ def updateNow():
         except Exception as e:
             exList(e)
 
-def configureConfigNow(name, repo, directory, appexename, bckOn, createlauncherOn):
+def configureConfigNow(appid, repo, directory, appexename, bckOn, createlauncherOn):
     try:
-        from os.path import dirname
-        from os.path import realpath
         logger("createConfig", "begin")
         configFileWrite = open(dirname(realpath(__file__))+"/config.py", 'w')
-        configFileWrite.write("appName = '"+name+"'"+"\n")
+        configFileWrite.write("appIdentifier = '"+appid+"'"+"\n")
         configFileWrite.write("appRepo = '"+repo+"'"+"\n")
         configFileWrite.write("appDir = '"+directory+"'"+"\n")
         configFileWrite.write("appExecName = '"+appexename+"'"+"\n")
