@@ -1,6 +1,6 @@
 # updater.py
 ### Update your Python apps with Git.
-#### Currently supports Linux with *partial* support for Windows and Mac
+### Currently supports Linux with *partial* support for Windows and Mac
 
 **Some limitations as of now**
 
@@ -18,7 +18,7 @@
 
 **How to use**
 
-1. Download the latest release from: https://github.com/jkelol111/updater.py/releases into your app's root directory after installing dependencies.
+1. Download the latest release from: https://github.com/jkelol111/updater.py/releases into your app's root directory after installing dependencies (see above).
 
 2. In your app: `import updater`
 
