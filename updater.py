@@ -314,7 +314,7 @@ def configureConfigNow(appid, repo, directory, appexename, bckOn, createlauncher
         configFileWrite.write("createLaunchScriptOn = "+str(createlauncherOn))
         logger("createConfig", "done")
         configFileWrite.close()
-        global appName
+        global appIdentifier
         global appRepo
         global appDir
         global appExecName
@@ -322,7 +322,7 @@ def configureConfigNow(appid, repo, directory, appexename, bckOn, createlauncher
         global createLaunchScriptOn
         global configFile
         global updaterFile
-        appName = name
+        appIdentifier = appid
         appRepo = repo
         appDir = directory
         appExecName = appexename
@@ -338,7 +338,7 @@ def configureConfigNow(appid, repo, directory, appexename, bckOn, createlauncher
 def createLauncherNow():
     try:
         logger("createlauncher", "begin")
-        launchScriptGenericDir = str(appDir+"/"+appName)
+        launchScriptGenericDir = str(appDir+"/"+appIdentifier)
         if system() == "Windows":
             launchScriptWinDir = str(launchScriptGenericDir+".bat")
             launchScriptWin = open(launchScriptGenericDir+".bat", "w+")
