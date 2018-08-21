@@ -1,6 +1,14 @@
 # updater.py
 ### Update your Python apps with Git.
-#### Currently supports Windows/Linux with *partial* support for Mac
+#### Currently supports Linux with *partial* support for Windows and Mac
+
+**Some limitations as of now**
+
+- On Windows: the path separator `\`, if present in `config.py`, will invoke errors during the initilization of `updater.py` (unicode error). **Fix slated for v 2.0, where config files will move on to YAML.**
+
+- On all platforms: cannot backup more than one app's config at a time (**Slated for version 1.1.0**)
+
+- Unorgranized and hard to read code (sorry peeps!).
 
 **Dependencies**
 
@@ -43,7 +51,3 @@
 `backupOn`: Backup on/off switch. `True` or `False` booleen. This being on will automatically copy `config.py` from the old app to the new one.
 
 `createLaunchScriptOn`: create launcher script for supported OSes on/off switch. `True` or `False` booleen. Double-click the generated script to launch application (in most situations (!))
-
-**Current limitations**
-
-1. Cannot backup more than one app's config at a time (**Slated for version 1.1.0**)

@@ -230,7 +230,7 @@ def backupConfigNow():
 
 def updateUpdaterNow():
     updaterRepoGit = str("https://github.com/jkelol111/updater.py.git")
-    updaterAppID = str("com.jkelol111.updater")
+    updaterAppID = str("me.jkelol111.updater")
     tmpBackupDirWin2 = str("C:/Users/"+username+"/.tmp_updater")
     tmpBackupDirNix2 = str("/home/"+username+"/.tmp_updater")
     tmpBackupDirOSX2 = str("/Users/"+username+"/.tmp_updater")
@@ -304,6 +304,8 @@ def updateNow():
 
 def configureConfigNow(appid, repo, directory, appexename, bckOn, createlauncherOn):
     try:
+        if system == "Windows":
+            directory.replace("\\", "/")
         logger("createConfig", "begin")
         configFileWrite = open(dirname(realpath(__file__))+"/config.py", 'w')
         configFileWrite.write("appIdentifier = '"+appid+"'"+"\n")
