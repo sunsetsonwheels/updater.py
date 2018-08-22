@@ -27,7 +27,7 @@ def logger(log, subcat):
             elif subcat == "step1":
                 print("[1/3] Emptying folder of application.")
             elif subcat == "step1.5":
-                print("[1.5/3] Backing up config.py of application.")
+                print("[1.5/3] Backing up configuration file of application.")
             elif subcat == "step2":
                 print("[2/3] Downloading and installing new version of application.")
             elif subcat == "step2.5":
@@ -38,11 +38,11 @@ def logger(log, subcat):
                 print(infosg+" Update/Reinstall completed.")
         elif log == "restore":
             if subcat == "begin":
-                print(infosg+" Restoring your config.py.")
+                print(infosg+" Restoring your configuration file.")
             elif subcat == "done":
-                print(infosg+" Done restoring your config.py.")
+                print(infosg+" Done restoring your configuration file.")
             elif subcat == "none":
-                print(warnsg+" There is no config.py to restore.")
+                print(warnsg+" There is no configuration file to restore.")
         elif log == "backup":
             if subcat == "begin":
                 print(infosg+" Backing up your configration file.")
@@ -83,7 +83,7 @@ def logger(log, subcat):
         elif log == "notSupported":
             print(warnsg+" Your OS does not support updater.py. The updater will now exit!")
         elif log == "notConfigured":
-            print(warnsg+" You have not configured your config.py. The updater will now terminate!")
+            print(warnsg+" You have not configured your configuration file (config.yml). The updater will now terminate!")
     except:
         print(warnsg+"logger does not have that!")
 
