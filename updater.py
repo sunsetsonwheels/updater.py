@@ -45,11 +45,11 @@ def logger(log, subcat):
                 print(warnsg+" There is no config.py to restore.")
         elif log == "backup":
             if subcat == "begin":
-                print(infosg+" Backing up your config.py.")
+                print(infosg+" Backing up your configration file.")
             elif subcat == "done":
-                print(infosg+" Done backing up your config.py.")
+                print(infosg+" Done backing up your configuration file.")
             elif subcat == "none":
-                print(warnsg+" There is no config.py to back up.")
+                print(warnsg+" There is no configuration file to back up.")
         elif log == "updateupdater":
             if subcat == "begin":
                 print(infosg+" Downloading and installing updater.py for application.")
