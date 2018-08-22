@@ -2,11 +2,9 @@
 ### Update your Python apps with Git.
 ### Currently supports Windows/Linux/Mac (BSD testers wanted!)
 
-**Some limitations as of now**
+**Important notice**
 
-- On Windows: the path separator `\`, if present in `config.py`, will invoke errors during the initilization of `updater.py` (unicode error). **Fix slated for v 2.0, where config files will move on to YAML.**
-
-- Unorgranized and hard to read code (sorry peeps!).
+- Releases moving forward from 2.x.x will deprecate config.py in favour of config.yml (YAML). Current `config.py` files will be converted to `config.yml` upon first update operation initiated from another app, but... if you are on Windows, see the **Some limitations as of now** section at the bottom.
 
 **Dependencies**
 
@@ -59,3 +57,11 @@ Meanings of variables:
 `backupOn`: Backup on/off switch. `True` or `False` booleen. This being on will automatically copy `config.py` from the old app to the new one.
 
 `createLaunchScriptOn`: create launcher script for supported OSes on/off switch. `True` or `False` booleen. Double-click the generated script to launch application (in most situations (!))
+
+**Some limitations as of now**
+
+- On Windows: the path separator `\`, if present in `config.py`, will invoke errors during the initilization of `updater.py` (unicode error). **v 2.0.0 is out, but your app has to use the new `config.yml` in the first place, or else the conversion from `config.py` to `config.yml` will still invoke errors (because it still needs to import `config.py`, hence throwing that unicode error). This only happens on Windows, and it is something I cannot fix automatically within `updater.py`. By hand fix will be detailed below.**
+
+**By hand fixes**
+
+- The Windows path separator bug: open `config.py` and replace every backslash in `appDir` with a slash. Simple as that. Oh and switch to the new `config.yml` format while you're at it.
