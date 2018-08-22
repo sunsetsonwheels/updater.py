@@ -1,0 +1,2 @@
+{appDir: Nothing, appExecName: nothing.py, appIdentifier: com.sample.nothing, appRepo: 'http://www.example.com/project.git',
+  backupOn: false, createLaunchScriptOn: false}

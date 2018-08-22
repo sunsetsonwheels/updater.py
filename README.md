@@ -12,9 +12,11 @@
 
 **Dependencies**
 
-1. Git for Windows/Linux/Mac: download at https://git-scm.com/
+- Git for Windows/Linux/Mac: download at https://git-scm.com/
 
-2. GitPython: install at terminal with `pip3 install GitPython`
+- GitPython: install at terminal with `pip3 install -U GitPython`
+
+- PyYAML: install at terminal with `pip3 install -U PyYaml`
 
 **How to use**
 
@@ -28,19 +30,27 @@
 
 **Additional functions**
 
-1. `cleanupNow()`: Removes the temporary directory (.tmp_updater). Not recommended unless updating, where it will be executed by `updateNow()`.
+- `cleanupNow()`: Removes the temporary directory (.tmp_updater). Not recommended unless updating, where it will be executed by `updateNow()`.
 
-2. `backupConfigNow()`: Backups your `config.py` to temporary directory, even when `backupOn = bool(False)` is stated in `config.py`.
+- `backupConfigNow()`: Backups your `config.py` to temporary directory, even when `backupOn = bool(False)` is stated in `config.py`.
 
-3. `restoreConfigNow()`: Attempts to restore a backed up `config.py` to your application directory. Does nothing if file doesn't exist.
+- `restoreConfigNow()`: Attempts to restore a backed up `config.py` to your application directory. Does nothing if file doesn't exist.
 
-4. `createLauncherNow()`: Creates a launcher in a form of a `.bat` or `.sh` for easy launching of your app.
+- `createLauncherNow()`: Creates a launcher in a form of a `.bat` or `.sh` for easy launching of your app.
 
-**config.py guide**
+- `configureConfigNow(appid, repo, directory, appexename, bckOn, createlauncherOn)`: Creates or modifies an existing `config.yml` file.
 
-*You can always use `configureConfigNow(name, repo, directory, appexename, bckOn, createlauncherOn)` to configure this file.*
+**config.yml guide**
 
-`appName`: Name of your application.
+*You can always use `configureConfigNow(appid, repo, directory, appexename, bckOn, createlauncherOn)` to configure this file.*
+
+Sample `config.yml` file:
+
+`{appDir: Nothing, appExecName: nothing.py, appIdentifier: com.sample.nothing, appRepo: 'http://www.example.com/project.git', backupOn: false, createLaunchScriptOn: false}`
+
+Meanings of variables:
+
+`appIdentifier`: Identifier of your application, e.g `com.sample.nothing`.
 
 `appRepo`: The address of the Git repo, e.g https://github.com/jkelol111/updater.py.git (don't forget `.git` at the end!).
 

@@ -76,6 +76,8 @@ def logger(log, subcat):
                 print(infosg+" Loading your configuration file.")
             elif subcat == "done":
                 print(infosg+" Done loading your configuration file.")
+            elif subcat == "warn":
+                print(warnsg+" The old configuration file (config.py) is going to be deprecated soon. Please alert your app developer if the change is not made yet!")
             elif subcat == "error":
                 print(warnsg+" Cannot load your configuration file.")
         elif log == "notSupported":
@@ -87,6 +89,8 @@ def logger(log, subcat):
 
 try:
     from git import Repo
+    from yaml import safe_load
+    from yaml import dump
 
     from platform import system
 
@@ -109,14 +113,40 @@ try:
 
     if isfile(dirname(realpath(__file__))+"/config.py") == True:
         logger("loadConfig", "begin")
+        logger("loadConfig", "warn")
         import config as cfg
-        appIdentifier = cfg.appIdentifier
-        appRepo = cfg.appRepo
-        appDir = cfg.appDir
-        appExecName = cfg.appExecName
-        backupOn = cfg.backupOn
-        createLaunchScriptOn = cfg.createLaunchScriptOn
-        configFile = str(appDir+"/config.py")
+        config_contents = dict(
+            appIdentifier = cfg.appIdentifier,
+            appRepo = cfg.appRepo,
+            appDir = cfg.appDir,
+            appExecName = cfg.appExecName,
+            backupOn = cfg.backupOn,
+            createLaunchScriptOn = cfg.createLaunchScriptOn
+        )
+        with open(dirname(realpath(__file__))+"/config.yml", 'w') as config_file:
+            dump(config_contents, config_file)
+        with open(dirname(realpath(__file__))+"/config.yml", 'r') as stream:
+            config_contents = safe_load(stream)
+        appIdentifier = config_contents["appIdentifier"]
+        appRepo = config_contents["appRepo"]
+        appDir = config_contents["appDir"]
+        appExecName = config_contents["appExecName"]
+        backupOn = config_contents["backupOn"]
+        createLaunchScriptOn = config_contents["createLaunchScriptOn"]
+        configFile = str(appDir+"/config.yml")
+        updaterFile = str(appDir+"/updater.py")
+        logger("loadConfig", "done")
+    elif isfile(dirname(realpath(__file__))+"/config.yml") == True:
+        logger("loadConfig", "begin")
+        with open(dirname(realpath(__file__))+"/config.yml", 'r') as stream:
+            config_contents = safe_load(stream)
+        appIdentifier = config_contents["appIdentifier"]
+        appRepo = config_contents["appRepo"]
+        appDir = config_contents["appDir"]
+        appExecName = config_contents["appExecName"]
+        backupOn = config_contents["backupOn"]
+        createLaunchScriptOn = config_contents["createLaunchScriptOn"]
+        configFile = str(appDir+"/config.yml")
         updaterFile = str(appDir+"/updater.py")
         logger("loadConfig", "done")
     else:
@@ -304,18 +334,18 @@ def updateNow():
 
 def configureConfigNow(appid, repo, directory, appexename, bckOn, createlauncherOn):
     try:
-        if system == "Windows":
-            directory.replace("\\", "/")
         logger("createConfig", "begin")
-        configFileWrite = open(dirname(realpath(__file__))+"/config.py", 'w')
-        configFileWrite.write("appIdentifier = '"+appid+"'"+"\n")
-        configFileWrite.write("appRepo = '"+repo+"'"+"\n")
-        configFileWrite.write("appDir = '"+directory+"'"+"\n")
-        configFileWrite.write("appExecName = '"+appexename+"'"+"\n")
-        configFileWrite.write("backupOn = "+str(bckOn)+"\n")
-        configFileWrite.write("createLaunchScriptOn = "+str(createlauncherOn))
+        config_contents = dict(
+            appIdentifier = appid,
+            appRepo = repo,
+            appDir = directory,
+            appExecName = appexename,
+            backupOn = bckOn,
+            createLaunchScriptOn = createlauncherOn
+        )
+        with open(dirname(realpath(__file__))+"/config.yml", 'w') as config_file:
+            dump(config_contents, config_file)
         logger("createConfig", "done")
-        configFileWrite.close()
         global appIdentifier
         global appRepo
         global appDir
@@ -331,7 +361,7 @@ def configureConfigNow(appid, repo, directory, appexename, bckOn, createlauncher
         backupOn = bckOn
         createLaunchScriptOn = createlauncherOn
 
-        configFile = str(appDir+"/config.py")
+        configFile = str(appDir+"/config.yml")
         updaterFile = str(appDir+"/updater.py")
     except Exception as e:
         logger("createConfig", "error")
