@@ -207,19 +207,19 @@ def restoreConfigNow():
     try:
         logger("restore", "begin")
         if system() == "Windows":
-            bckconfigFileWin = str(tmpBackupDirWin+"/config.py")
+            bckconfigFileWin = str(tmpBackupDirWin+"/config.yml")
             if isfile(bckconfigFileWin) == bool(True):
                 copy2(bckconfigFileWin, appDir)
             elif isfile(bckconfigFileWin) == bool(False):
                 logger("restore", "none")
         elif system() == "Linux":
-            bckconfigFileNix = str(tmpBackupDirNix+"/config.py")
+            bckconfigFileNix = str(tmpBackupDirNix+"/config.yml")
             if isfile(bckconfigFileNix) == bool(True):
                 copy2(bckconfigFileNix, appDir)
             elif isfile(bckconfigFileNix) == bool(False):
                 logger("restore", "none")
         elif system() == "Darwin":
-            bckconfigFileOSX = str(tmpBackupDirOSX+"/config.py")
+            bckconfigFileOSX = str(tmpBackupDirOSX+"/config.yml")
             if isfile(bckconfigFileOSX) == bool(True):
                 copy2(bckconfigFileOSX, appDir)
             elif isfile(bckconfigFileOSX) == bool(False):
