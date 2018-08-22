@@ -4,7 +4,7 @@
 
 **Important notice**
 
-- Releases moving forward from 2.x.x will deprecate config.py in favour of config.yml (YAML). Current `config.py` files will be converted to `config.yml` upon first update operation initiated from another app, but... if you are on Windows, see the **Some limitations as of now** section at the bottom.
+- Releases moving forward from 2.x.x will deprecate config.py in favour of `config.ym`l (YAML). Current `config.py` files will be converted to `config.yml` upon first update operation initiated from another app, but... if you are on Windows, see the **Some limitations as of now** section at the bottom.
 
 **Dependencies**
 
