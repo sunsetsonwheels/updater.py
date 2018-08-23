@@ -370,17 +370,16 @@ def configureConfigNow(appid, repo, directory, appexename, bckOn, createlauncher
 def createLauncherNow():
     try:
         logger("createlauncher", "begin")
-        launchScriptGenericDir = str(appDir+"/"+appIdentifier)
         if system() == "Windows":
-            launchScriptWinDir = str(launchScriptGenericDir+".bat")
-            launchScriptWin = open(launchScriptGenericDir+".bat", "w+")
-            launchScriptWin.write("python "+appExecName+"\n")
+            launchScriptWinDir = str("C:/Users/"+username+"/Desktop/"+appIdentifier+".bat")
+            launchScriptWin = open(launchScriptWinDir, "w")
+            launchScriptWin.write("python "+dirname(realpath(__file__))+"/"+appExecName+"\n")
             launchScriptWin.write("pause")
             launchScriptWin.close()
         elif system() == "Linux" or system() == "Darwin":
-            launchScriptNixDir = str(launchScriptGenericDir+".sh")
-            launchScriptNix = open(launchScriptGenericDir+".sh", "w+")
-            launchScriptNix.write("python "+appExecName+"\n")
+            launchScriptNixDir = str("~/Desktop/"+appIdentifier+".sh")
+            launchScriptNix = open(launchScriptNixDir+".sh", "w")
+            launchScriptWin.write("python "+dirname(realpath(__file__))+"/"+appExecName+"\n")
             launchScriptNix.write("read")
             launchScriptNix.close()
             chmod(launchScriptNixDir, S_IXUSR)
