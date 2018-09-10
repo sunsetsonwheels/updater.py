@@ -8,6 +8,7 @@ def exList(ex):
     print("- If you're getting errors about config, reread your config file.")
     print("- Make sure you have installed all the dependencies. Read README.md for more info.")
     print("If nothing works, please create a new issue on GitHub: https://github.com/jkelol111/updater.py/issues")
+    raise ex
     exit()
 
 def logger(log, subcat):
@@ -359,7 +360,8 @@ def updateNow(updaterSource):
             rmtree(appDir, onerror=onerrorPatch)
 
             logger("update", "step2")
-            mkdir(appDir)
+            if not isdir(appDir):
+                mkdir(appDir)
             Repo.clone_from(appRepo, appDir)
 
             if backupOn == bool(True):
@@ -370,7 +372,7 @@ def updateNow(updaterSource):
             if not updaterSource == None:
                 updateUpdaterNow(updaterSource)
             else:
-                updateUpdaterNow()
+                updateUpdaterNow(None)
 
             if createLaunchScriptOn == bool(True):
                 createLauncherNow()
