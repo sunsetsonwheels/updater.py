@@ -344,7 +344,7 @@ def updateUpdaterNow(source):
             exList(e)
 
 
-def updateNow(updaterSource):
+def updateNow(updaterSource=None):
     checkConfig()
     if configured == bool(False):
         logger("notConfigured", "")
